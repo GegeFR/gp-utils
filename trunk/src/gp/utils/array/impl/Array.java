@@ -58,6 +58,16 @@ public abstract class Array
         return array;
     }
     
+    public SubArray subArray(int offset)
+    {
+        return this.subArray(offset, this.length - offset);
+    }
+    
+    public SubArray subArray(int offset, int length)
+    {
+        return new SubArray(this, offset, length);
+    }
+    
     private final void assertValidIndex(int i)
     {
         if(i< 0 || i >= length)
