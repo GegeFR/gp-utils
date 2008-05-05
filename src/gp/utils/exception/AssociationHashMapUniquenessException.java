@@ -10,26 +10,27 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.array.impl;
-
-
-
+package gp.utils.exception;
 
 /**
  *
  * @author gege
  */
-public class BitwiseOrArray extends OperationArray
+public class AssociationHashMapUniquenessException extends Exception
 {
-    public BitwiseOrArray(Array array1, Array array2)
+    public AssociationHashMapUniquenessException()
     {
-        super(array1, array2);
+        super();
     }
 
-
-    @Override
-    public byte operation(byte byte1, byte byte2)
+    public AssociationHashMapUniquenessException(String message)
     {
-        return (byte) ((byte1 | byte2) & 0xFF);
+        super(message);
     }
+    
+    public AssociationHashMapUniquenessException(String message, Throwable t)
+    {
+        super(message, t);
+    }
+
 }
