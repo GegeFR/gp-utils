@@ -34,19 +34,19 @@ public class DefaultArray extends Array
 
     // <editor-fold desc=" Array interface " >
     @Override
-    public byte doGet(int i)
+    protected byte doGet(int i)
     {
         return array[i];
     }
 
     @Override
-    public void doSet(int i, byte value)
+    protected void doSet(int i, byte value)
     {
         array[i] = value;
     }
 
     @Override
-    public void doSet(int i, int value)
+    protected void doSet(int i, int value)
     {
         array[i] = (byte) (value & 0xFF);
     }

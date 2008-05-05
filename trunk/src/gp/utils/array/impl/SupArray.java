@@ -99,19 +99,19 @@ public class SupArray extends Array
     
     // <editor-fold desc=" Array interface " >
     @Override
-    public byte doGet(int i)
+    protected byte doGet(int i)
     {
         return arrayForIndex(i).get(i - this.currentOffset);
     }
     
     @Override
-    public void doSet(int i, byte value)
+    protected void doSet(int i, byte value)
     {
         arrayForIndex(i).set(i - this.currentOffset, value);
     }
     
     @Override
-    public void doSet(int i, int value)
+    protected void doSet(int i, int value)
     {
         arrayForIndex(i).set(i - this.currentOffset, value);
     }

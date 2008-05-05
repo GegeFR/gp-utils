@@ -32,7 +32,7 @@ public class RandomArray extends ReadOnlyArray
 
     // <editor-fold desc=" Array interface " >
     @Override
-    public byte doGet(int i)
+    protected byte doGet(int i)
     {
         return array[i];
     }

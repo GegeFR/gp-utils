@@ -27,7 +27,7 @@ public class ConstantArray extends ReadOnlyArray
     }
 
     @Override
-    public byte doGet(int i)
+    protected byte doGet(int i)
     {
         return this.value;
     }

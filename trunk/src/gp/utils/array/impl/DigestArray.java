@@ -46,7 +46,7 @@ public class DigestArray extends ReadOnlyArray
     }
     
     @Override
-    public byte doGet(int i)
+    protected byte doGet(int i)
     {
         if(doDigest)
         {
