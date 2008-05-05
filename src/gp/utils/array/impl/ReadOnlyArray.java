@@ -19,13 +19,13 @@ package gp.utils.array.impl;
 public abstract class ReadOnlyArray extends Array
 {
     @Override
-    final public void doSet(int i, byte value)
+    final protected void doSet(int i, byte value)
     {
         throw new UnsupportedOperationException("Not supported, this Array is readonly.");
     }
 
     @Override
-    final public void doSet(int i, int value)
+    final protected void doSet(int i, int value)
     {
         throw new UnsupportedOperationException("Not supported, this Array is readonly.");
     }

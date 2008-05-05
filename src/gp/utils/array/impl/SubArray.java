@@ -50,19 +50,19 @@ public class SubArray extends Array
     
     // <editor-fold desc=" Array interface " >
     @Override
-    public byte doGet(int i)
+    protected byte doGet(int i)
     {
         return array.get(offset + i);
     }
 
     @Override
-    public void doSet(int i, byte value)
+    protected void doSet(int i, byte value)
     {
         array.set(offset + i, value);
     }
     
     @Override
-    public void doSet(int i, int value)
+    protected void doSet(int i, int value)
     {
         array.set(offset + i, value);
     }

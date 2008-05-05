@@ -31,7 +31,7 @@ public class PaddingArray extends ReadOnlyArray
     }
 
     @Override
-    public byte doGet(int i)
+    protected byte doGet(int i)
     {
         if(i >= data.length)
         {

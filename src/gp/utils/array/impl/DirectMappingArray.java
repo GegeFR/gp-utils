@@ -28,21 +28,21 @@ public class DirectMappingArray extends Array
     
     // <editor-fold desc=" Array interface " >
     @Override
-    public final byte doGet(int i)
+    protected final byte doGet(int i)
     {
         // use doGet since it is a direct mapping
         return array.doGet(i);
     }
 
     @Override
-    public final void doSet(int i, byte value)
+    protected final void doSet(int i, byte value)
     {
         // use doGet since it is a direct mapping
         array.doSet(i, value);
     }
 
     @Override
-    public final void doSet(int i, int value)
+    protected final void doSet(int i, int value)
     {
         // use doGet since it is a direct mapping
         array.doSet(i, value);

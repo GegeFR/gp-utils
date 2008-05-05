@@ -35,7 +35,7 @@ public abstract class OperationArray extends ReadOnlyArray
     }
     
     @Override
-    public byte doGet(int i)
+    protected byte doGet(int i)
     {
         return this.operation(this.array1.get(i), this.array2.get(i));
     }
