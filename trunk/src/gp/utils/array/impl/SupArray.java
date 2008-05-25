@@ -12,8 +12,8 @@
 
 package gp.utils.array.impl;
 
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
+
 
 /**
  *
@@ -21,100 +21,140 @@ import java.util.LinkedList;
  */
 public class SupArray extends Array
 {
-    private LinkedList<Array> arrays;
+    private ArrayList<SupArrayPart> arrayList;
     
-    private Iterator<Array> iterator;
     
-    private Array currentArray;
-    
-    private int currentOffset;
+    private boolean locked;
+            
+    private int currentArrayListIndex;
     
     /** Creates a new instance of SupArray */
     public SupArray()
     {
-        this.arrays = new LinkedList<Array>();
+        this.locked = false;
         this.length = 0;
-        this.iterator = null;
+        this.arrayList = new ArrayList<SupArrayPart>();
+        this.currentArrayListIndex = -1;
     }
     
     public SupArray addLast(Array array)
     {
-        arrays.addLast(array);
-        this.iterator = null;
+        assertIsNotLocked();
+
+        int start;
+        if(0 == this.arrayList.size())
+        {
+            start = 0;
+        }
+        else
+        {
+            SupArrayPart lastArray = this.arrayList.get(this.arrayList.size() - 1);
+            start = lastArray.start + lastArray.array.length;
+        }
+        
+        this.arrayList.add(new SupArrayPart(array, start));
         this.length += array.length;
         return this;
     }
 
     public SupArray addFirst(Array array)
     {
-        this.arrays.addFirst(array);
-        this.iterator = null;
+        assertIsNotLocked();
+        this.arrayList.add(0, new SupArrayPart(array, 0));
+        
+        int size = this.arrayList.size();
+        for(int i=1; i<size; i++)
+        {
+            this.arrayList.get(i).start += array.length;
+        }
         this.length += array.length;
         return this;
     }
     
-    private Array arrayForIndex(int index)
+    private SupArrayPart arrayForIndex(int index)
     {
-        if(null == this.iterator)
+        if(index == 0)
         {
-            this.currentOffset = 0;
-            
-            if(0 == this.length)
+            this.currentArrayListIndex = 0;
+        }
+        
+        if(index == this.length - 1)
+        {
+            this.currentArrayListIndex = this.arrayList.size() - 1;
+        }
+        
+        SupArrayPart supArrayPart = arrayList.get(currentArrayListIndex);
+        while(!(index >= supArrayPart.start && index < supArrayPart.start + supArrayPart.array.length))
+        {
+            if(index < supArrayPart.start)
             {
-                return new ConstantArray((byte) 0 ,0);
+                this.currentArrayListIndex--;
             }
             else
             {
-                this.iterator = this.arrays.iterator();
-                this.currentArray = iterator.next();
+                this.currentArrayListIndex++;
             }
+            supArrayPart = arrayList.get(currentArrayListIndex);
         }
-        
-        //System.out.println(Integer.toHexString(this.hashCode()) +"bef index = " + index + ", currentOffset = " + this.currentOffset + ", currentLength" + this.currentArray.length);
-                    
-        if(index >= this.currentOffset && index < this.currentOffset + this.currentArray.length)
-        {
-            return this.currentArray;
-        }
-        
-        if(index < this.currentOffset)
-        {
-            this.currentOffset = 0;
-            this.iterator = this.arrays.iterator();
-            this.currentArray = iterator.next();
-        }
-        
-        while(index >= this.currentOffset + this.currentArray.length)
-        {
-            if(!iterator.hasNext())
-            {
-                throw new ArrayIndexOutOfBoundsException("No Array in list for index:" + index +", length:" + length);
-            }
-            this.currentOffset += this.currentArray.length;
-            this.currentArray = iterator.next();
-        }
-        
-        return this.currentArray;
+                
+        return supArrayPart;
     }
     
     // <editor-fold desc=" Array interface " >
     @Override
     protected byte doGet(int i)
     {
-        return arrayForIndex(i).get(i - this.currentOffset);
+        SupArrayPart supArrayPart = arrayForIndex(i);
+        return supArrayPart.array.get(i - supArrayPart.start);
     }
     
     @Override
     protected void doSet(int i, byte value)
     {
-        arrayForIndex(i).set(i - this.currentOffset, value);
+        SupArrayPart supArrayPart = arrayForIndex(i);
+        supArrayPart.array.set(i - supArrayPart.start, value);
     }
     
     @Override
     protected void doSet(int i, int value)
     {
-        arrayForIndex(i).set(i - this.currentOffset, value);
+        SupArrayPart supArrayPart = arrayForIndex(i);
+        supArrayPart.array.set(i - supArrayPart.start, value);
     }
     // </editor-fold>
+                 
+    private void assertIsNotLocked()
+    {
+        if(true == this.locked)
+        {
+            throw new RuntimeException("Can't add Array to SupArray. It is now locked.");
+        }
+    }
     
+    @Override
+    public Array subArray(int offset, int length)
+    {
+        this.locked = true;
+        SupArrayPart supArrayPart = arrayForIndex(offset);
+        if(length <= supArrayPart.array.length - (offset - supArrayPart.start))
+        {
+            return supArrayPart.array.subArray(offset, length);
+        }
+        else
+        {
+            return super.subArray(offset, length);
+        }
+    }
+    
+    private class SupArrayPart
+    {
+        public int start;
+        public Array array;
+        
+        public SupArrayPart(Array array, int start)
+        {
+            this.start = start;
+            this.array = array;
+        }
+    }
 }

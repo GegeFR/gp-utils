@@ -12,6 +12,8 @@
 
 package gp.utils.array.impl;
 
+import gp.utils.exception.ArrayLengthException;
+
 /**
  *
  * @author GegeFR
@@ -20,11 +22,26 @@ public class ReadOnlyDefaultArray extends ReadOnlyArray
 {
     private byte[] array;
     
+    private int offset;
+    
+    
+    /** Creates a new instance of Array */
+    public ReadOnlyDefaultArray(byte[] array, int offset, int length)
+    {
+        if(offset < 0 || offset > array.length || offset + length  > array.length)
+        {
+            throw new ArrayLengthException("Invalid ReadOnlyDefaultArray parameters offset=" + offset + ", length=" + length + ", embedded array length=" + array.length);
+        }
+        
+        this.array = array;
+        this.length = length;
+        this.offset = offset;
+    }
+    
     /** Creates a new instance of Array */
     public ReadOnlyDefaultArray(byte[] array)
     {
-        this.array = array;
-        this.length = array.length;
+        this(array, 0, array.length);
     }
 
     public ReadOnlyDefaultArray(int length)
@@ -36,7 +53,7 @@ public class ReadOnlyDefaultArray extends ReadOnlyArray
     @Override
     protected byte doGet(int i)
     {
-        return array[i];
+        return array[this.offset + i];
     }
 
     @Override
@@ -45,4 +62,10 @@ public class ReadOnlyDefaultArray extends ReadOnlyArray
         return array;
     }
     // </editor-fold>
+    
+    @Override
+    public Array subArray(int offset, int length)
+    {
+        return new ReadOnlyDefaultArray(this.array, this.offset + offset, length);
+    }
 }

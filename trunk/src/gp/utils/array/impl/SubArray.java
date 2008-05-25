@@ -15,7 +15,7 @@ package gp.utils.array.impl;
 import gp.utils.exception.ArrayLengthException;
 
 /**
- *
+ * This calss constructors are protected because only the subArray method should be used as it contains some otimizations.
  * @author GegeFR
  */
 public class SubArray extends Array
@@ -23,8 +23,8 @@ public class SubArray extends Array
     private Array array;
     
     private int offset;
-      
-    public SubArray(Array array, int offset, int length) throws ArrayIndexOutOfBoundsException
+
+    protected SubArray(Array array, int offset, int length) throws ArrayIndexOutOfBoundsException
     {
         if(offset < 0 || offset > array.length || offset + length  > array.length)
         {
@@ -36,11 +36,11 @@ public class SubArray extends Array
         this.length = length;
     }
     
-    public SubArray(Array array, int offset) throws ArrayIndexOutOfBoundsException
+    protected SubArray(Array array, int offset) throws ArrayIndexOutOfBoundsException
     {
         if(offset < 0 || offset > array.length)
         {
-            throw new ArrayIndexOutOfBoundsException("Invalid SubArray paramters offset=" + offset + ", embedded array length=" + array.length);
+            throw new ArrayIndexOutOfBoundsException("Invalid SubArray parameters offset=" + offset + ", embedded array length=" + array.length);
         }
         
         this.array = array;
@@ -67,5 +67,11 @@ public class SubArray extends Array
         array.set(offset + i, value);
     }
     // </editor-fold>
+    
+    @Override
+    public Array subArray(int offset, int length)
+    {
+        return this.array.subArray(this.offset + offset, length);
+    }
     
 }
