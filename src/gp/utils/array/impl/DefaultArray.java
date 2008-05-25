@@ -12,6 +12,8 @@
 
 package gp.utils.array.impl;
 
+import gp.utils.exception.ArrayLengthException;
+
 /**
  *
  * @author GegeFR
@@ -20,11 +22,25 @@ public class DefaultArray extends Array
 {
     private byte[] array;
     
+    private int offset;
+    
+    
     /** Creates a new instance of Array */
+    public DefaultArray(byte[] array, int offset, int length)
+    {
+        if(offset < 0 || offset > array.length || offset + length  > array.length)
+        {
+            throw new ArrayLengthException("Invalid DefaultArray parameters offset=" + offset + ", length=" + length + ", embedded array length=" + array.length);
+        }
+        
+        this.array = array;
+        this.length = length;
+        this.offset = offset;
+    }
+
     public DefaultArray(byte[] array)
     {
-        this.array = array;
-        this.length = array.length;
+        this(array, 0, array.length);
     }
 
     public DefaultArray(int length)
@@ -36,19 +52,19 @@ public class DefaultArray extends Array
     @Override
     protected byte doGet(int i)
     {
-        return array[i];
+        return array[this.offset + i];
     }
 
     @Override
     protected void doSet(int i, byte value)
     {
-        array[i] = value;
+        array[this.offset + i] = value;
     }
 
     @Override
     protected void doSet(int i, int value)
     {
-        array[i] = (byte) (value & 0xFF);
+        array[this.offset + i] = (byte) (value & 0xFF);
     }
 
     @Override
@@ -57,5 +73,11 @@ public class DefaultArray extends Array
         return array;
     }
 
-   // </editor-fold>
+    // </editor-fold>
+
+    @Override
+    public Array subArray(int offset, int length)
+    {
+        return new DefaultArray(this.array, this.offset + offset, length);
+    }
 }
