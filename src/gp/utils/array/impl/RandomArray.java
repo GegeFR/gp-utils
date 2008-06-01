@@ -42,5 +42,11 @@ public class RandomArray extends ReadOnlyArray
     {
         return array;
     }
+    
+    @Override
+    public Array subArray(int offset, int length)
+    {
+        return new DefaultArray(this.array, offset, length);
+    }
     // </editor-fold>
 }
