@@ -59,7 +59,16 @@ public class ReadOnlyDefaultArray extends ReadOnlyArray
     @Override
     public byte[] getBytes()
     {
-        return array;
+        if(this.offset != 0 || this.length != this.array.length)
+        {
+            byte[] bytes = new byte[this.length];
+            System.arraycopy(this.array, this.offset, bytes, 0, this.length);
+            return bytes;
+        }
+        else
+        {
+            return this.array;
+        }
     }
     // </editor-fold>
     
