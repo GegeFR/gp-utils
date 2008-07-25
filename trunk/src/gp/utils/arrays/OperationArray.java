@@ -14,7 +14,7 @@ package gp.utils.arrays;
 
 /**
  *
- * @author gege
+ * @author Gwenhael Pasquiers
  */
 public abstract class OperationArray extends ReadOnlyArray
 {

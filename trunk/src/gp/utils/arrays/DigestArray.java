@@ -18,7 +18,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  *
- * @author gege
+ * @author Gwenhael Pasquiers
  */
 public class DigestArray extends ReadOnlyArray
 {

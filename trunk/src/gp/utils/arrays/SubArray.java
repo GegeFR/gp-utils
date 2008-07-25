@@ -16,7 +16,7 @@ import gp.utils.arrays.ArrayLengthException;
 
 /**
  * This calss constructors are protected because only the subArray method should be used as it contains some otimizations.
- * @author GegeFR
+ * @author Gwenhael PasquiersFR
  */
 public class SubArray extends Array
 {

@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author gege
+ * @author Gwenhael Pasquiers
  */
 public class AssociationHashMap<L, R>
 {

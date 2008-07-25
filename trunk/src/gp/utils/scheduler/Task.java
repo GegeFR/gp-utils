@@ -10,23 +10,17 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.scheduler;
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 /**
  *
  * @author Gwenhael Pasquiers
  */
-public class BitwiseXorArray extends OperationArray
-{
-    public BitwiseXorArray(Array array1, Array array2)
-    {
-        super(array1, array2);
-    }
-
-
-    @Override
-    public byte operation(byte byte1, byte byte2)
-    {
-        return (byte) (((byte1& 0xFF) ^ (byte2& 0xFF)) & 0xFF);
-    }
+public interface Task {
+    public void execute();
 }

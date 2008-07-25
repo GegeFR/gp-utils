@@ -14,7 +14,7 @@ package gp.utils.map;
 
 /**
  *
- * @author gege
+ * @author Gwenhael Pasquiers
  */
 public class AssociationHashMapUniquenessException extends Exception
 {

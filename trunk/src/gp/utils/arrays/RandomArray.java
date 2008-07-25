@@ -16,7 +16,7 @@ import java.util.Random;
 
 /**
  *
- * @author GegeFR
+ * @author Gwenhael PasquiersFR
  */
 public class RandomArray extends ReadOnlyArray
 {
