@@ -15,7 +15,7 @@ package gp.utils.arrays;
 
 /**
  *
- * @author gege
+ * @author Gwenhael Pasquiers
  */
 public class PaddingArray extends ReadOnlyArray
 {

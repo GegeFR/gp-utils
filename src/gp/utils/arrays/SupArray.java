@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author GegeFR
+ * @author Gwenhael PasquiersFR
  */
 public class SupArray extends Array
 {

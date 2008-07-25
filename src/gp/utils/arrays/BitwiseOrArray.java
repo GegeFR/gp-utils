@@ -17,7 +17,7 @@ package gp.utils.arrays;
 
 /**
  *
- * @author gege
+ * @author Gwenhael Pasquiers
  */
 public class BitwiseOrArray extends OperationArray
 {

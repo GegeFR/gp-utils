@@ -17,7 +17,7 @@ import gp.utils.arrays.ArrayLengthException;
 
 /**
  *
- * @author GegeFR
+ * @author Gwenhael PasquiersFR
  */
 public class Integer64Array extends DirectMappingArray
 {

@@ -14,7 +14,7 @@ package gp.utils.arrays;
 
 /**
  *
- * @author GegeFR
+ * @author Gwenhael PasquiersFR
  */
 public class DirectMappingArray extends Array
 {

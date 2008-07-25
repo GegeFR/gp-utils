@@ -15,7 +15,7 @@ package gp.utils.arrays;
 
 /**
  *
- * @author GegeFR
+ * @author Gwenhael PasquiersFR
  */
 public abstract class Array
 {
