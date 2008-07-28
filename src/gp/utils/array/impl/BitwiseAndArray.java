@@ -10,25 +10,23 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.array.impl;
 
 /**
  *
- * @author Gwenhael Pasquiers
+ * @author gege
  */
-public class ConstantArray extends ReadOnlyArray
+public class BitwiseAndArray extends OperationArray
 {
-    private byte value;
-    
-    public ConstantArray(byte value, int length)
+    public BitwiseAndArray(Array array1, Array array2)
     {
-        this.value = value;
-        this.length = length;
+        super(array1, array2);
     }
 
+
     @Override
-    protected byte doGet(int i)
+    public byte operation(byte byte1, byte byte2)
     {
-        return this.value;
+        return (byte) ((byte1 & byte2) & 0xFF);
     }
 }

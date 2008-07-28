@@ -10,11 +10,11 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.array.impl;
 
 /**
  *
- * @author Gwenhael Pasquiers
+ * @author gege
  */
 public abstract class OperationArray extends ReadOnlyArray
 {

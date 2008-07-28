@@ -10,14 +10,14 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.array.impl;
 
 import java.util.ArrayList;
 
 
 /**
  *
- * @author Gwenhael PasquiersFR
+ * @author GegeFR
  */
 public class SupArray extends Array
 {
@@ -138,7 +138,7 @@ public class SupArray extends Array
         SupArrayPart supArrayPart = arrayForIndex(offset);
         if(length <= supArrayPart.array.length - (offset - supArrayPart.start))
         {
-            return supArrayPart.array.subArray(offset - supArrayPart.start, length);
+            return supArrayPart.array.subArray(offset, length);
         }
         else
         {

@@ -10,16 +10,23 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.array.impl;
 
 /**
  *
- * @author Gwenhael Pasquiers
+ * @author gege
  */
-public class ArrayLengthException extends RuntimeException
+public class BitwiseXorArray extends OperationArray
 {
-    public ArrayLengthException(String message)
+    public BitwiseXorArray(Array array1, Array array2)
     {
-        super(message);
+        super(array1, array2);
+    }
+
+
+    @Override
+    public byte operation(byte byte1, byte byte2)
+    {
+        return (byte) (((byte1& 0xFF) ^ (byte2& 0xFF)) & 0xFF);
     }
 }

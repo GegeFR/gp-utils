@@ -10,11 +10,11 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.array.impl;
 
 /**
  *
- * @author Gwenhael PasquiersFR
+ * @author GegeFR
  */
 public class DirectMappingArray extends Array
 {

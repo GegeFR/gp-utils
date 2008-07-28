@@ -10,14 +10,14 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.array.impl;
 
-import gp.utils.arrays.ArrayLengthException;
+import gp.utils.exception.ArrayLengthException;
 
 
 /**
  *
- * @author Gwenhael PasquiersFR
+ * @author GegeFR
  */
 public class Integer64Array extends DirectMappingArray
 {

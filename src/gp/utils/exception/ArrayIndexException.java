@@ -10,23 +10,16 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.exception;
 
 /**
  *
- * @author Gwenhael Pasquiers
+ * @author gege
  */
-public class BitwiseAndArray extends OperationArray
+public class ArrayIndexException extends RuntimeException
 {
-    public BitwiseAndArray(Array array1, Array array2)
+    public ArrayIndexException(String message)
     {
-        super(array1, array2);
-    }
-
-
-    @Override
-    public byte operation(byte byte1, byte byte2)
-    {
-        return (byte) ((byte1 & byte2) & 0xFF);
+        super(message);
     }
 }

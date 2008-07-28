@@ -10,36 +10,23 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
-
+package gp.utils.array.impl;
 
 /**
  *
- * @author Gwenhael Pasquiers
+ * @author gege
  */
-public class PaddingArray extends ReadOnlyArray
+public abstract class ReadOnlyArray extends Array
 {
-    private Array data;
-    
-    private byte paddedValue;
-    
-    public PaddingArray(Array data, byte paddedValue, int paddedLength)
+    @Override
+    final protected void doSet(int i, byte value)
     {
-        this.data = data;
-        this.length = paddedLength;
-        this.paddedValue = paddedValue;
+        throw new UnsupportedOperationException("Not supported, this Array is readonly.");
     }
 
     @Override
-    protected byte doGet(int i)
+    final protected void doSet(int i, int value)
     {
-        if(i >= data.length)
-        {
-            return this.paddedValue;
-        }
-        else
-        {
-            return this.data.get(i);
-        }
+        throw new UnsupportedOperationException("Not supported, this Array is readonly.");
     }
 }

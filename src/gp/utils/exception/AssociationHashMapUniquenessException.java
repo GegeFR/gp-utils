@@ -10,23 +10,27 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.exception;
 
 /**
  *
- * @author Gwenhael Pasquiers
+ * @author gege
  */
-public abstract class ReadOnlyArray extends Array
+public class AssociationHashMapUniquenessException extends Exception
 {
-    @Override
-    final protected void doSet(int i, byte value)
+    public AssociationHashMapUniquenessException()
     {
-        throw new UnsupportedOperationException("Not supported, this Array is readonly.");
+        super();
     }
 
-    @Override
-    final protected void doSet(int i, int value)
+    public AssociationHashMapUniquenessException(String message)
     {
-        throw new UnsupportedOperationException("Not supported, this Array is readonly.");
+        super(message);
     }
+    
+    public AssociationHashMapUniquenessException(String message, Throwable t)
+    {
+        super(message, t);
+    }
+
 }

@@ -10,13 +10,13 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.array.impl;
 
 import java.util.Random;
 
 /**
  *
- * @author Gwenhael PasquiersFR
+ * @author GegeFR
  */
 public class RandomArray extends ReadOnlyArray
 {
@@ -41,12 +41,6 @@ public class RandomArray extends ReadOnlyArray
     public byte[] getBytes()
     {
         return array;
-    }
-    
-    @Override
-    public Array subArray(int offset, int length)
-    {
-        return new DefaultArray(this.array, offset, length);
     }
     // </editor-fold>
 }

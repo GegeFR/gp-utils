@@ -10,13 +10,13 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.array.impl;
 
-import gp.utils.arrays.ArrayLengthException;
+import gp.utils.exception.ArrayLengthException;
 
 /**
  * This calss constructors are protected because only the subArray method should be used as it contains some otimizations.
- * @author Gwenhael PasquiersFR
+ * @author GegeFR
  */
 public class SubArray extends Array
 {

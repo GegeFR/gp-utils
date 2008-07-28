@@ -10,44 +10,39 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.array.impl;
 
-import gp.utils.arrays.ArrayLengthException;
+import gp.utils.exception.ArrayLengthException;
 
 
 /**
  *
- * @author Gwenhael PasquiersFR
+ * @author GegeFR
  */
-public class Integer16Array extends DirectMappingArray
+public class Integer08Array extends DirectMappingArray
 {
-    public Integer16Array(int value)
+    public Integer08Array(int value)
     {
-        super(new DefaultArray(2));
+        super(new DefaultArray(1));
         this.setValue(value);
     }
 
-    public Integer16Array(Array array)
+    public Integer08Array(Array array)
     {
         super(array);
-        
-        if(array.length != 2)
+        if(array.length != 1)
         {
-            throw new ArrayLengthException("Integer16Array must have a size of 2");
+            throw new ArrayLengthException("Integer08Array must have a size of 1");
         }
     }
     
     public void setValue(int value)
     {
-        this.doSet(0, (byte) (value >> 8) & 0xFF);
-        this.doSet(1, (byte) value & 0xFF);
+        this.doSet(0, (byte) value & 0xFF);
     }
     
     public int getValue()
     {
-        int value = 0;
-        value += (this.doGet(0) & 0xFF) << 8;
-        value += this.doGet(1) & 0xFF;
-        return value;
+        return this.doGet(0) & 0xFF;
     }
 }

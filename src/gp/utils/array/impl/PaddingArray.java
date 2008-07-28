@@ -10,27 +10,36 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.map;
+package gp.utils.array.impl;
+
 
 /**
  *
- * @author Gwenhael Pasquiers
+ * @author gege
  */
-public class AssociationHashMapUniquenessException extends Exception
+public class PaddingArray extends ReadOnlyArray
 {
-    public AssociationHashMapUniquenessException()
-    {
-        super();
-    }
-
-    public AssociationHashMapUniquenessException(String message)
-    {
-        super(message);
-    }
+    private Array data;
     
-    public AssociationHashMapUniquenessException(String message, Throwable t)
+    private byte paddedValue;
+    
+    public PaddingArray(Array data, byte paddedValue, int paddedLength)
     {
-        super(message, t);
+        this.data = data;
+        this.length = paddedLength;
+        this.paddedValue = paddedValue;
     }
 
+    @Override
+    protected byte doGet(int i)
+    {
+        if(i >= data.length)
+        {
+            return this.paddedValue;
+        }
+        else
+        {
+            return this.data.get(i);
+        }
+    }
 }

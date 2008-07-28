@@ -10,13 +10,13 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.array.impl;
 
-import gp.utils.arrays.ArrayLengthException;
+import gp.utils.exception.ArrayLengthException;
 
 /**
  *
- * @author Gwenhael PasquiersFR
+ * @author GegeFR
  */
 public class DefaultArray extends Array
 {
@@ -70,16 +70,7 @@ public class DefaultArray extends Array
     @Override
     public byte[] getBytes()
     {
-        if(this.offset != 0 || this.length != this.array.length)
-        {
-            byte[] bytes = new byte[this.length];
-            System.arraycopy(this.array, this.offset, bytes, 0, this.length);
-            return bytes;
-        }
-        else
-        {
-            return this.array;
-        }
+        return array;
     }
 
     // </editor-fold>

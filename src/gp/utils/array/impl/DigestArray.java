@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.arrays;
+package gp.utils.array.impl;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -18,7 +18,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  *
- * @author Gwenhael Pasquiers
+ * @author gege
  */
 public class DigestArray extends ReadOnlyArray
 {

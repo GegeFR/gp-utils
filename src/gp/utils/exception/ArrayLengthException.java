@@ -10,17 +10,16 @@
  * Lesser General Public License for more details.
  */
 
-package gp.utils.scheduler;
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+package gp.utils.exception;
 
 /**
  *
- * @author Gwenhael Pasquiers
+ * @author gege
  */
-public interface Task {
-    public void execute();
+public class ArrayLengthException extends RuntimeException
+{
+    public ArrayLengthException(String message)
+    {
+        super(message);
+    }
 }

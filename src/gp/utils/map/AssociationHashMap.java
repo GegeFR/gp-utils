@@ -12,11 +12,12 @@
 
 package gp.utils.map;
 
+import gp.utils.exception.AssociationHashMapUniquenessException;
 import java.util.HashMap;
 
 /**
  *
- * @author Gwenhael Pasquiers
+ * @author gege
  */
 public class AssociationHashMap<L, R>
 {
