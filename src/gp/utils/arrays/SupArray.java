@@ -138,7 +138,7 @@ public class SupArray extends Array
         SupArrayPart supArrayPart = arrayForIndex(offset);
         if(length <= supArrayPart.array.length - (offset - supArrayPart.start))
         {
-            return supArrayPart.array.subArray(offset, length);
+            return supArrayPart.array.subArray(offset - supArrayPart.start, length);
         }
         else
         {
