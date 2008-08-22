@@ -29,7 +29,7 @@ public class AssociationHashMap<L, R>
         this.rightToLeft = new HashMap<R, L>();
     }
     
-    synchronized public void put(L left, R right) throws AssociationHashMapUniquenessException
+    synchronized public void put(L left, R right)
     {
         //if(!this.leftToRight.containsKey(left) && !this.rightToLeft.containsKey(right))
         {
