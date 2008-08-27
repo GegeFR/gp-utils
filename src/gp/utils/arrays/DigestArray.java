@@ -30,14 +30,18 @@ public class DigestArray extends ReadOnlyArray
 
     private MessageDigest msgDigest;
     
-    public DigestArray(Array array, String algorithm)
+    public DigestArray(Array array, String algorithm) 
     {
         this.array = array;
         try
         {
-            this.msgDigest = MessageDigest.getInstance(algorithm);
+            this.msgDigest = (MessageDigest) MessageDigest.getInstance(algorithm).clone();
         }
         catch(NoSuchAlgorithmException e)
+        {
+            throw new RuntimeException(e);
+        }
+        catch(CloneNotSupportedException e)
         {
             throw new RuntimeException(e);
         }
@@ -48,7 +52,7 @@ public class DigestArray extends ReadOnlyArray
     @Override
     protected byte doGet(int i)
     {
-        if(doDigest)
+        if(this.doDigest)
         {
             computeDigest();
         }
@@ -56,14 +60,15 @@ public class DigestArray extends ReadOnlyArray
         return digest[i];
     }
 
-    private void computeDigest()
+    private synchronized void computeDigest()
     {
+        if(this.doDigest == false) return;
+        
         this.msgDigest.reset();
-        for(int i=0; i<this.array.length; i++)
-        {
-            this.msgDigest.update(this.array.get(i));
-        }
+        for(int i=0; i<this.array.length; i++) this.msgDigest.update(this.array.get(i));
         this.digest = this.msgDigest.digest();
         this.length = this.digest.length;
+
+        this.doDigest = false;
     }
 }
