@@ -117,8 +117,7 @@ public class Scheduler
                     }
                     catch (Throwable t)
                     {
-                        System.err.println("Scheduler internal thread died. This error is fatal.");
-                        t.printStackTrace(System.err);
+                        System.err.println("Scheduler internal thread died. This is fatal.");
                         return;
                     }
                 }
@@ -140,10 +139,9 @@ public class Scheduler
                         {
                             _this.nextTask().execute();
                         }
-                        catch(Exception e)
+                        catch(Throwable t)
                         {
-                            System.err.println("Error in scheduler executor thread " + Thread.currentThread().getName() + ".");
-                            e.printStackTrace(System.err);
+                            System.err.println("Throwable catched in scheduler executor thread " + Thread.currentThread().getName() + ": " + t.toString());
                         }
                     }
                 }
