@@ -135,4 +135,95 @@ public abstract class Array
     {
         return super.hashCode();
     }
+    
+    public static Array fromHexString(String string)
+    {
+        if(null == string) throw new IllegalArgumentException("string cannot be null");
+        
+        if(string.length() % 2 != 0) throw new IllegalArgumentException("string length is not even");
+        
+        DefaultArray array = new DefaultArray(string.length() / 2);
+        
+        for(int i=0; i<array.length; i++)
+        {
+            byte value = 0;
+            value += charToByte(string.charAt(i*2)) << 4;
+            value += charToByte(string.charAt(i*2 + 1));
+            array.set(i, value);
+        }
+
+        return array;
+    }
+
+    public static String toHexString(Array array)
+    {
+        char[] chars = new char[array.length * 2];
+        
+        int i=0;
+        int j=0;
+        while(i < array.length)
+        {
+            chars[j] =  byteToChar((byte) ((array.get(i)&0xff) >> 4));
+            chars[j+1] = byteToChar((byte) (array.get(i) & 0x0f));
+            
+            i += 1;
+            j += 2;
+        }
+        
+        return new String(chars);
+    }
+    
+    private static byte charToByte(char character)
+    {
+        switch(character)
+        {
+            case '0': return 0;
+            case '1': return 1;
+            case '2': return 2;
+            case '3': return 3;
+            case '4': return 4;
+            case '5': return 5;
+            case '6': return 6;
+            case '7': return 7;
+            case '8': return 8;
+            case '9': return 9;
+            case 'A': 
+            case 'a': return 10;
+            case 'B': 
+            case 'b': return 11;
+            case 'C':
+            case 'c': return 12;
+            case 'D':
+            case 'd': return 13;
+            case 'E':
+            case 'e': return 14;
+            case 'F':
+            case 'f': return 15;
+            default : throw new IllegalArgumentException("unknown char " + character);
+        }
+    }
+    
+    private static char byteToChar(byte byteValue)
+    {
+        switch(byteValue)
+        {
+            case  0: return '0';
+            case  1: return '1';
+            case  2: return '2';
+            case  3: return '3';
+            case  4: return '4';
+            case  5: return '5';
+            case  6: return '6';
+            case  7: return '7';
+            case  8: return '8';
+            case  9: return '9';
+            case 10: return 'a';
+            case 11: return 'b';
+            case 12: return 'c';
+            case 13: return 'd';
+            case 14: return 'e';
+            case 15: return 'f';
+            default: throw new IllegalArgumentException("invalid value " + byteValue);
+        }
+    }    
 }

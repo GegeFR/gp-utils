@@ -26,6 +26,13 @@ public class DirectMappingArray extends Array
         this.length = array.length;
     }
     
+    public void setArray(Array array) throws ArrayLengthException
+    {
+        if(this.array.length != array.length) throw new ArrayLengthException("new and old array must have the same length");
+        
+        this.array = array;
+    }
+    
     // <editor-fold desc=" Array interface " >
     @Override
     protected final byte doGet(int i)
