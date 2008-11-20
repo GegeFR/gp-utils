@@ -67,7 +67,39 @@ public abstract class Array
     {
         return new SubArray(this, offset, length);
     }
-    
+
+    public int indexOf(Array array)
+    {
+        return this.indexOf(array, 0);
+    }
+
+    public int indexOf(Array array, int minimum)
+    {
+        if(minimum < 0 || minimum >= this.length) throw new ArrayIndexException("invalid start index ("+minimum+") for array of size " + this.length);
+
+        if(array.length == 0) throw new ArrayIndexException("invalid array (size = 0)");
+
+        for(int i=minimum; i< (this.length - (array.length - 1)); i++)
+        {
+            if(this.get(i) == array.get(0))
+            {
+                int candidate = i;
+                for(int j=1; j<array.length; j++)
+                {
+                    if(this.get(i+j) != array.get(j))
+                    {
+                        candidate = -1;
+                        break;
+                    }
+                }
+                
+                if(candidate != -1) return candidate;
+            }
+        }
+
+        return -1;
+    }
+
     private final void assertValidIndex(int i)
     {
         if(i< 0 || i >= length)
