@@ -204,7 +204,17 @@ public abstract class Array
         
         return new String(chars);
     }
-    
+
+    public static Array fromBase64String(String string)
+    {
+        return new DefaultArray(Base64Coder.decode(string));
+    }
+
+    public static String toBase64String(Array array)
+    {
+        return Base64Coder.encode(array);
+    }
+
     private static byte charToByte(char character)
     {
         switch(character)
@@ -257,5 +267,6 @@ public abstract class Array
             case 15: return 'f';
             default: throw new IllegalArgumentException("invalid value " + byteValue);
         }
-    }    
+    }
+
 }
