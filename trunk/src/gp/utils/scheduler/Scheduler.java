@@ -15,7 +15,7 @@ package gp.utils.scheduler;
 import java.util.PriorityQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
 
 /**
  *
@@ -23,23 +23,23 @@ import java.util.concurrent.TimeUnit;
  */
 public class Scheduler
 {
-    private PriorityQueue<DatedTask> queuedTaskQueue;
-    private LinkedBlockingQueue<Task> normalTaskQueue;
-    private LinkedBlockingQueue<Task> urgentTaskQueue;
+    private final PriorityQueue<DatedTask> queuedTaskQueue;
+    private final LinkedBlockingQueue<Task> normalTaskQueue;
+    private final LinkedBlockingQueue<Task> urgentTaskQueue;
     
-    private Semaphore globalTaskSemaphore;
-    private Semaphore urgentTaskSemaphore;
-    private Semaphore queuedTaskSemaphore;
+    private final Semaphore globalTaskSemaphore;
+    private final Semaphore urgentTaskSemaphore;
+
+    private final Thread schedulerThread;
 
     public Scheduler(int threadsCount)
     {
         
-        this.normalTaskQueue = new LinkedBlockingQueue<Task>();
-        this.urgentTaskQueue = new LinkedBlockingQueue<Task>();
-        this.queuedTaskQueue = new PriorityQueue<DatedTask>();
+        this.normalTaskQueue = new LinkedBlockingQueue();
+        this.urgentTaskQueue = new LinkedBlockingQueue();
+        this.queuedTaskQueue = new PriorityQueue();
         this.globalTaskSemaphore = new Semaphore(0);
         this.urgentTaskSemaphore = new Semaphore(0);
-        this.queuedTaskSemaphore = new Semaphore(0);
         
         
         /*
@@ -70,7 +70,7 @@ public class Scheduler
                  * urgentTaskQueue. If null, don't transfer anything
                  * and wait for the delay to the task on top of queue.
                  */
-                Task task;
+                DatedTask task;
 
                     
                 while (true)
@@ -82,7 +82,7 @@ public class Scheduler
                         if(null != task)
                         {
                             isEmpty = false;
-                            delay = _this.queuedTaskQueue.peek().date() - System.currentTimeMillis();
+                            delay = task.date() - System.currentTimeMillis();
                         }
                         else
                         {
@@ -102,15 +102,15 @@ public class Scheduler
                     {
                         if(isEmpty)
                         {
-                            _this.queuedTaskSemaphore.acquire();
+                            LockSupport.park();
                         }
                         else if(delay > 0)
                         {
-                            _this.queuedTaskSemaphore.tryAcquire(delay, TimeUnit.MILLISECONDS);
+                            LockSupport.parkNanos(delay * 1000 * 1000);
                         }
                         else
                         {
-                            _this.urgentTaskQueue.offer(task);
+                            _this.urgentTaskQueue.offer(task.task);
                             _this.urgentTaskSemaphore.release();
                             _this.globalTaskSemaphore.release();
                         }
@@ -118,15 +118,16 @@ public class Scheduler
                     catch (Throwable t)
                     {
                         System.err.println("Scheduler internal thread died. This is fatal.");
+                        t.printStackTrace();
                         return;
                     }
                 }
             }
         };
 
-        Thread thread = new Thread(runnable);
-        thread.setDaemon(true);
-        thread.start();
+        this.schedulerThread = new Thread(runnable);
+        this.schedulerThread.setDaemon(true);
+        this.schedulerThread.start();
         
         for(int i=0; i<threadsCount; i++)
         {
@@ -147,7 +148,7 @@ public class Scheduler
                 }
             };
             
-            thread = new Thread(runnable);
+            Thread thread = new Thread(runnable);
             thread.setDaemon(true);
             thread.start();
         }
@@ -178,9 +179,9 @@ public class Scheduler
      * @param task
      * @param delay
      */
-    public void scheduleIn(Task task, long delay)
+    public void scheduleIn(Task task, long millis)
     {
-        this.scheduleAt(task, delay + System.currentTimeMillis());
+        this.scheduleAt(task, System.currentTimeMillis() + millis);
     }
 
     /**
@@ -197,7 +198,7 @@ public class Scheduler
             this.queuedTaskQueue.add(scheduledTask);
             if(this.queuedTaskQueue.peek().equals(scheduledTask))
             {
-                this.queuedTaskSemaphore.release();
+                LockSupport.unpark(this.schedulerThread);
             }
         }
     }
@@ -212,7 +213,7 @@ public class Scheduler
     {
         synchronized (this.queuedTaskQueue)
         {
-            return this.queuedTaskQueue.remove(new DatedTask(task, 0));
+            return this.queuedTaskQueue.remove(task);
         }
     }
     
@@ -234,16 +235,17 @@ public class Scheduler
         private Task task;
         private long date;
 
-        public DatedTask(Task task, long date)
+        public DatedTask(Task task, long millis)
         {
             this.task = task;
-            this.date = date;
+            this.date = millis;
         }
 
         public long date()
         {
             return this.date;
         }
+
 
         public void execute()
         {
