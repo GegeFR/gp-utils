@@ -213,7 +213,7 @@ public class Scheduler
     {
         synchronized (this.queuedTaskQueue)
         {
-            return this.queuedTaskQueue.remove(task);
+            return this.queuedTaskQueue.remove(new DatedTask(task, 0));
         }
     }
     
