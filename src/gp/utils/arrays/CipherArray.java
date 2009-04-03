@@ -50,6 +50,7 @@ public class CipherArray extends ReadOnlyArray
         this.keyAlgorithm = keyAlgorithm;
 
         this.doCipher = true;
+        doCipher();
     }
     
     @Override
@@ -74,6 +75,7 @@ public class CipherArray extends ReadOnlyArray
             IvParameterSpec ivParameterSpec = new IvParameterSpec(this.salt.getBytes());
             cipher.init(this.mode, secretKeySpec, ivParameterSpec);
             this.result = cipher.doFinal(this.data.getBytes());
+            this.length = this.result.length;
         }
         catch (IllegalBlockSizeException e)
         {
