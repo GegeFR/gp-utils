@@ -16,7 +16,7 @@ import gp.utils.arrays.ArrayLengthException;
 
 /**
  *
- * @author Gwenhael PasquiersFR
+ * @author Gwenhael Pasquiers
  */
 public class ReadOnlyDefaultArray extends ReadOnlyArray
 {

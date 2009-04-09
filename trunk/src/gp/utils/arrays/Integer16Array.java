@@ -17,7 +17,7 @@ import gp.utils.arrays.ArrayLengthException;
 
 /**
  *
- * @author Gwenhael PasquiersFR
+ * @author Gwenhael Pasquiers
  */
 public class Integer16Array extends DirectMappingArray
 {
