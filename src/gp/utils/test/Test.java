@@ -5,7 +5,6 @@
 
 package gp.utils.test;
 
-import gp.utils.arrays.BitArray;
 import gp.utils.arrays.DefaultArray;
 
 /**
@@ -37,17 +36,18 @@ public class Test
 //        }
 
 
-        BitArray bitArray = new BitArray(new DefaultArray(3));
+        DefaultArray bitArray = new DefaultArray(3);
         System.err.println(bitArray);
-//        bitArray.setBitFromLeft(0, 1);
-//        bitArray.setBitFromLeft(1, 1);
-//        bitArray.setBitFromLeft(2, 1);
-//        bitArray.setBitFromLeft(3, 1);
-//        bitArray.setBitFromLeft(8, 1);
-        bitArray.setBitsFromLeft(0, 8, 0xab);
-        bitArray.setBitsFromLeft(8, 4, 0xc);
-        bitArray.setBitsFromRight(8, 4, 0xd);
-        bitArray.setBitsFromRight(0, 8, 0xef);
+        bitArray.setBit(0, 1);
+        bitArray.setBit(1, 1);
+        bitArray.setBit(2, 1);
+        bitArray.setBit(3, 1);
+        bitArray.setBit(4, 1);
+        System.err.println(bitArray.getBit(0));
+        System.err.println(bitArray.getBit(1));
+        System.err.println(bitArray.getBit(2));
+        System.err.println(bitArray.getBit(3));
+        System.err.println(bitArray.getBits(3,2));
         System.err.println(bitArray);
 
     }

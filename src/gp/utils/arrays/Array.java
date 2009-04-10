@@ -40,6 +40,56 @@ public abstract class Array
         this.doSet(i, value);
     }
 
+    public void setBit(int index, int bitValue)
+    {
+        if(bitValue != 0 && bitValue != 1) throw new RuntimeException("invalid bit value (" + bitValue + ", should be 0 or 1)");
+
+        this.assertValidBitIndex(index);
+
+        int arrayIndex = index/8;
+        int bitIndex = index % 8;
+
+        int byteValue = this.doGet(arrayIndex);
+
+        int mask = 0x80 >> bitIndex;
+
+        if(1 == bitValue) byteValue |=  mask;
+        else byteValue &= 0xff - mask;
+
+        this.doSet(arrayIndex, byteValue);
+    }
+
+    public void setBits(int startIndex, int length, int bitsValue)
+    {
+        if(bitsValue < 0 || bitsValue > Math.pow(2, startIndex + length) -1) throw new RuntimeException("invalid bits value, must be between 0 and " + (Math.pow(2, startIndex + length) -1));
+
+        for(int i=0; i<length; i++)
+        {
+            this.setBit(startIndex + length - 1 - i, (bitsValue & (1 << i))>>i);
+        }
+    }
+
+    public int getBit(int index)
+    {
+        this.assertValidBitIndex(index);
+
+        int arrayIndex = index/8;
+        int bitIndex = index % 8;
+        int byteValue = this.doGet(arrayIndex);
+
+        return ((byteValue & (0x80 >> bitIndex)) == 0)? 0 : 1;
+    }
+
+    public int getBits(int startIndex, int length)
+    {
+        int value = 0;
+        for(int i=length - 1; i >= 0; i--)
+        {
+            value += this.getBit(startIndex + i) << length - 1 - i;
+        }
+        return value;
+    }
+
     protected abstract byte doGet(int i);
     
     protected abstract void doSet(int i, byte value);
@@ -108,6 +158,14 @@ public abstract class Array
         }
     }
     
+    private final void assertValidBitIndex(int i)
+    {
+        if(i<0 || i >= length * 8)
+        {
+            throw new ArrayIndexOutOfBoundsException("Invalid bit index: " + i +" of " + 8*length + " bits");
+        }
+    }
+
     @Override
     public String toString()
     {
