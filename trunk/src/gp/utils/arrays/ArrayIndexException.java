@@ -22,4 +22,9 @@ public class ArrayIndexException extends RuntimeException
     {
         super(message);
     }
+
+    public ArrayIndexException(String message, Throwable e)
+    {
+        super(message, e);
+    }
 }
