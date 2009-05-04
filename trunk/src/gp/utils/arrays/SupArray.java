@@ -34,7 +34,7 @@ public class SupArray extends Array
         this.locked = false;
         this.length = 0;
         this.arrayList = new ArrayList<SupArrayPart>();
-        this.currentArrayListIndex = -1;
+        this.currentArrayListIndex = 0;
     }
     
     public SupArray addLast(Array array)
