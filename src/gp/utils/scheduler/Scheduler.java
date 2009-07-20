@@ -143,6 +143,7 @@ public class Scheduler
                         catch(Throwable t)
                         {
                             System.err.println("Throwable catched in scheduler executor thread " + Thread.currentThread().getName() + ": " + t.toString());
+                            t.printStackTrace();
                         }
                     }
                 }
