@@ -193,6 +193,7 @@ public class Scheduler
      */
     public void scheduleAt(Task task, long date)
     {
+        if(date < 0) throw new IllegalArgumentException("date must be positive or null");
         DatedTask scheduledTask = new DatedTask(task, date);
         synchronized (this.queuedTaskQueue)
         {
@@ -214,7 +215,7 @@ public class Scheduler
     {
         synchronized (this.queuedTaskQueue)
         {
-            return this.queuedTaskQueue.remove(new DatedTask(task, 0));
+            return this.queuedTaskQueue.remove(new DatedTask(task, -1));
         }
     }
     
@@ -272,6 +273,14 @@ public class Scheduler
 
         public int compareTo(DatedTask o)
         {
+            // specific case when compareTo is called from the remove() method
+            // in Java 1.5 (we created a dummy task with a -1 timestamp);
+            if(this.date == -1 || o.date == -1)
+            {
+                if(this.task.equals(o.task)) return 0;
+                else                         return 1;
+            }
+
             return (int) (this.date - o.date);
         }
     }
