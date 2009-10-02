@@ -162,6 +162,7 @@ public class Scheduler
      */
     public void execute(Task task, boolean urgent)
     {
+        if(null == task) throw new IllegalArgumentException("task must not be null");
         if(urgent)
         {
             this.urgentTaskQueue.offer(task);
@@ -193,6 +194,7 @@ public class Scheduler
      */
     public void scheduleAt(Task task, long date)
     {
+        if(null == task) throw new IllegalArgumentException("task must not be null");
         if(date < 0) throw new IllegalArgumentException("date must be positive or null");
         DatedTask scheduledTask = new DatedTask(task, date);
         synchronized (this.queuedTaskQueue)
