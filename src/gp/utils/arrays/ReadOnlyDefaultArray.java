@@ -12,8 +12,6 @@
 
 package gp.utils.arrays;
 
-import gp.utils.arrays.ArrayLengthException;
-
 /**
  *
  * @author Gwenhael Pasquiers
@@ -76,5 +74,11 @@ public class ReadOnlyDefaultArray extends ReadOnlyArray
     public Array subArray(int offset, int length)
     {
         return new ReadOnlyDefaultArray(this.array, this.offset + offset, length);
+    }
+
+    @Override
+    protected void doGetBytes(byte[] container, int offset, int length)
+    {
+        System.arraycopy(array, 0, container, offset, length);
     }
 }

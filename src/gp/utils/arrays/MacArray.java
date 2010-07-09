@@ -110,4 +110,15 @@ public class MacArray extends ReadOnlyArray
 
         this.doMac = false;
     }
+
+    @Override
+    protected void doGetBytes(byte[] container, int offset, int length)
+    {
+        if(this.doMac)
+        {
+            computeMac();
+        }
+
+        System.arraycopy(result, 0, container, offset, length);
+    }
 }

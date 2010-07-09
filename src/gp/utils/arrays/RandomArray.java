@@ -48,5 +48,11 @@ public class RandomArray extends ReadOnlyArray
     {
         return new DefaultArray(this.array, offset, length);
     }
+
+    @Override
+    protected void doGetBytes(byte[] container, int offset, int length)
+    {
+        System.arraycopy(array, 0, container, offset, length);
+    }
     // </editor-fold>
 }

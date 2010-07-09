@@ -61,5 +61,11 @@ public class DirectMappingArray extends Array
         // use array's getBytes since it is a direct mapping and array could be a DefaultArray
         return array.getBytes();
     }
+
+    @Override
+    protected void doGetBytes(byte[] container, int offset, int length)
+    {
+        array.doGetBytes(container, offset, length);
+    }
     // </editor-fold>
 }

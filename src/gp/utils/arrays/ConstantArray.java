@@ -31,4 +31,13 @@ public class ConstantArray extends ReadOnlyArray
     {
         return this.value;
     }
+
+    @Override
+    protected void doGetBytes(byte[] container, int offset, int length)
+    {
+        for(int i=0; i<length; i++)
+        {
+            container[i + offset] = value;
+        }
+    }
 }

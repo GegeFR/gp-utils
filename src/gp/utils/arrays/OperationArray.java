@@ -40,5 +40,13 @@ public abstract class OperationArray extends ReadOnlyArray
         return this.operation(this.array1.get(i), this.array2.get(i));
     }
 
+    @Override
+    protected void doGetBytes(byte[] container, int offset, int length)
+    {
+        for(int i=0; i<length; i++){
+            container[i + offset] = this.operation(this.array1.get(i), this.array2.get(i));
+        }
+    }
+
     public abstract byte operation(byte byte1, byte byte2);
 }

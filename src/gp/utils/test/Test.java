@@ -5,7 +5,10 @@
 
 package gp.utils.test;
 
+import gp.utils.arrays.Array;
+import gp.utils.arrays.ConstantArray;
 import gp.utils.arrays.DefaultArray;
+import gp.utils.arrays.OverlayArray;
 
 /**
  *
@@ -49,6 +52,13 @@ public class Test
         System.err.println(bitArray.getBit(3));
         System.err.println(bitArray.getBits(3,2));
         System.err.println(bitArray);
+
+        Array background = new ConstantArray((byte) 0, 64);
+        Array overlay = new ConstantArray((byte) 5, 32);
+
+        Array res = new OverlayArray(background, overlay, 16);
+
+        System.err.println(res);
 
     }
 }

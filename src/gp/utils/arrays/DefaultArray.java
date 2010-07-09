@@ -12,8 +12,6 @@
 
 package gp.utils.arrays;
 
-import gp.utils.arrays.ArrayLengthException;
-
 /**
  *
  * @author Gwenhael Pasquiers
@@ -68,13 +66,16 @@ public class DefaultArray extends Array
     }
 
     @Override
-    public byte[] getBytes()
+    protected void doGetBytes(byte[] container, int offset, int length)
     {
+        System.arraycopy(array, 0, container, offset, length);
+    }
+
+    @Override
+    public byte[] getBytes(){
         if(this.offset != 0 || this.length != this.array.length)
         {
-            byte[] bytes = new byte[this.length];
-            System.arraycopy(this.array, this.offset, bytes, 0, this.length);
-            return bytes;
+            return super.getBytes();
         }
         else
         {
@@ -89,4 +90,5 @@ public class DefaultArray extends Array
     {
         return new DefaultArray(this.array, this.offset + offset, length);
     }
+
 }

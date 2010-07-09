@@ -42,4 +42,14 @@ public class PaddingArray extends ReadOnlyArray
             return this.data.get(i);
         }
     }
+
+    @Override
+    protected void doGetBytes(byte[] container, int offset, int length)
+    {
+        data.doGetBytes(container, offset, Math.min(length, data.length));
+        for(int i=data.length; i<length; i++)
+        {
+            container[i + offset] = paddedValue;
+        }
+    }
 }
