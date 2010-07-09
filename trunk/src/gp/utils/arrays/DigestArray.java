@@ -71,4 +71,15 @@ public class DigestArray extends ReadOnlyArray
 
         this.doDigest = false;
     }
+
+    @Override
+    protected void doGetBytes(byte[] container, int offset, int length)
+    {
+        if(this.doDigest)
+        {
+            computeDigest();
+        }
+        
+        System.arraycopy(digest, 0, container, offset, length);
+    }
 }

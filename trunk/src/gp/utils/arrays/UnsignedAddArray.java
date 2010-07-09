@@ -52,9 +52,23 @@ public class UnsignedAddArray extends ReadOnlyArray
     @Override
     protected byte doGet(int i)
     {
-        if(this.doCompute) compute();
+        if(this.doCompute)
+        {
+            compute();
+        }
         
         return this.resultant[i];
+    }
+
+    @Override
+    protected void doGetBytes(byte[] container, int offset, int length)
+    {
+        if(this.doCompute)
+        {
+            compute();
+        }
+
+        System.arraycopy(resultant, 0, container, offset, length);
     }
 
 }

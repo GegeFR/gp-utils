@@ -40,4 +40,10 @@ public class EmptyArray extends Array
     {
         throw new UnsupportedOperationException("Not supported, this Array is empty.");
     }
+
+    @Override
+    protected void doGetBytes(byte[] container, int offset, int length)
+    {
+        // do nothing
+    }
 }

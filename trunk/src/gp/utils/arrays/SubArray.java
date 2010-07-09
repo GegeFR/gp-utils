@@ -12,8 +12,6 @@
 
 package gp.utils.arrays;
 
-import gp.utils.arrays.ArrayLengthException;
-
 /**
  * This calss constructors are protected because only the subArray method should be used as it contains some otimizations.
  * @author Gwenhael Pasquiers
@@ -72,6 +70,12 @@ public class SubArray extends Array
     public Array subArray(int offset, int length)
     {
         return this.array.subArray(this.offset + offset, length);
+    }
+
+    @Override
+    protected void doGetBytes(byte[] container, int offset, int length)
+    {
+        array.doGetBytes(container, offset, length);
     }
     
 }

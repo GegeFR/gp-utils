@@ -104,4 +104,15 @@ public class CipherArray extends ReadOnlyArray
 
         this.doCipher = false;
     }
+
+    @Override
+    protected void doGetBytes(byte[] container, int offset, int length)
+    {
+        if(this.doCipher)
+        {
+            doCipher();
+        }
+        
+        System.arraycopy(result, 0, container, offset, length);
+    }
 }

@@ -145,13 +145,27 @@ public class SupArray extends Array
             return super.subArray(offset, length);
         }
     }
+
+    @Override
+    protected void doGetBytes(byte[] container, int offset, int length)
+    {
+        int size = arrayList.size();
+        for(int i=0; i<size; i++)
+        {
+            SupArrayPart supArrayPart = arrayList.get(i);
+            if(length >= supArrayPart.start)
+            {
+                supArrayPart.array.doGetBytes(container, offset + supArrayPart.start, Math.min(length - supArrayPart.start,  supArrayPart.array.length));
+            }
+        }
+    }
     
     private class SupArrayPart
     {
-        public int start;
-        public Array array;
+        private int start;
+        private Array array;
         
-        public SupArrayPart(Array array, int start)
+        private SupArrayPart(Array array, int start)
         {
             this.start = start;
             this.array = array;
