@@ -77,8 +77,8 @@ public class ReadOnlyDefaultArray extends ReadOnlyArray
     }
 
     @Override
-    protected void doGetBytes(byte[] container, int offset, int length)
+    protected void doGetBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength)
     {
-        System.arraycopy(array, 0, container, offset, length);
+        System.arraycopy(array, sourceOffset, target, targetOffset, copyLength);
     }
 }

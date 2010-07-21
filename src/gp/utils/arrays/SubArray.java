@@ -73,9 +73,14 @@ public class SubArray extends Array
     }
 
     @Override
-    protected void doGetBytes(byte[] container, int offset, int length)
+    protected void doGetBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength)
     {
-        array.doGetBytes(container, offset, length);
+        if(sourceOffset + copyLength > length)
+        {
+            throw new ArrayLengthException("asked to get until byte " + (sourceOffset + copyLength) + " of a SubArray of length " + length);
+        }
+
+        array.doGetBytes(sourceOffset + offset, target, targetOffset, copyLength);
     }
     
 }

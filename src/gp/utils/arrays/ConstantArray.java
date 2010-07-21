@@ -33,11 +33,16 @@ public class ConstantArray extends ReadOnlyArray
     }
 
     @Override
-    protected void doGetBytes(byte[] container, int offset, int length)
+    protected void doGetBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength)
     {
-        for(int i=0; i<length; i++)
+        if(sourceOffset + copyLength > length)
         {
-            container[i + offset] = value;
+            throw new ArrayLengthException("can't doGetBytes, asked bytes from " + sourceOffset + " to " + (sourceOffset + copyLength) + ", array has a size of " + length);
+        }
+        
+        for(int i=0; i<copyLength; i++)
+        {
+            target[i + targetOffset] = value;
         }
     }
 }

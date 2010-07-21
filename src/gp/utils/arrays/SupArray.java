@@ -147,15 +147,20 @@ public class SupArray extends Array
     }
 
     @Override
-    protected void doGetBytes(byte[] container, int offset, int length)
+    protected void doGetBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength)
     {
+        if(sourceOffset + copyLength > length)
+        {
+            throw new ArrayLengthException("asked to get until byte " + (sourceOffset + copyLength) + " of a SupArray of length " + length);
+        }
+
         int size = arrayList.size();
         for(int i=0; i<size; i++)
         {
             SupArrayPart supArrayPart = arrayList.get(i);
-            if(length >= supArrayPart.start)
+            if(sourceOffset <= supArrayPart.start || (sourceOffset >= supArrayPart.start && sourceOffset < supArrayPart.start + supArrayPart.array.length))
             {
-                supArrayPart.array.doGetBytes(container, offset + supArrayPart.start, Math.min(length - supArrayPart.start,  supArrayPart.array.length));
+                supArrayPart.array.doGetBytes(Math.max(0, sourceOffset - supArrayPart.start), target, targetOffset + Math.max(0, supArrayPart.start - sourceOffset), Math.min(supArrayPart.array.length, copyLength - (supArrayPart.start - sourceOffset)));
             }
         }
     }
