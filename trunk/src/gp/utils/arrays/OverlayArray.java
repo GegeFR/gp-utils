@@ -18,9 +18,8 @@ package gp.utils.arrays;
  */
 public class OverlayArray extends Array
 {
-    private Array parentBefore;
+    private Array parent;
     private Array overlay;
-    private Array parentAfter;
     private int offset;
     
     
@@ -28,8 +27,7 @@ public class OverlayArray extends Array
     public OverlayArray(Array parent, Array overlay, int offset)
     {
         this.length = parent.length;
-        this.parentBefore = parent.subArray(0, offset);
-        this.parentAfter = parent.subArray(offset + overlay.length, parent.length - offset - overlay.length);
+        this.parent = parent;
 
         this.overlay = overlay;
 
@@ -45,34 +43,26 @@ public class OverlayArray extends Array
     @Override
     protected byte doGet(int i)
     {
-        if(i < offset)
-        {
-            return parentBefore.get(i);
-        }
-        else if(i >= offset && i < offset + overlay.length)
+        if(i >= offset && i < offset + overlay.length)
         {
             return overlay.get(i - offset);
         }
         else
         {
-            return parentAfter.get(i - offset - overlay.length);
+            return parent.get(i);
         }
     }
 
     @Override
     protected void doSet(int i, byte value)
     {
-        if(i < offset)
-        {
-            parentBefore.set(i, value);
-        }
-        else if(i >= offset && i < offset + overlay.length)
+        if(i >= offset && i < offset + overlay.length)
         {
             overlay.set(i - offset, value);
         }
         else
         {
-            parentAfter.set(i - offset - overlay.length, value);
+            parent.set(i, value);
         }
     }
 
@@ -83,21 +73,31 @@ public class OverlayArray extends Array
     }
 
     @Override
-    protected void doGetBytes(byte[] container, int offset, int length)
+    protected void doGetBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength)
     {
-        if(length >= 0)
+        int done = 0;
+        int todo = copyLength;
+        
+        if(sourceOffset + copyLength >= 0 && sourceOffset <= offset)
         {
-            parentBefore.doGetBytes(container, offset, Math.min(length, parentBefore.length));
+            int toCopy = Math.min(copyLength, offset);
+            parent.doGetBytes(sourceOffset, target, targetOffset, toCopy);
+            todo -= toCopy;
+            done += toCopy;
         }
 
-        if(length >= this.offset)
+        if(sourceOffset + copyLength >= offset && sourceOffset <= offset + overlay.length)
         {
-            overlay.doGetBytes(container, offset + this.offset, Math.min(length - this.offset, overlay.length));
+            int localOffset = Math.max(0, sourceOffset - offset);
+            int toCopy = Math.min(todo, overlay.length - localOffset);
+            overlay.doGetBytes(localOffset, target, targetOffset + Math.max(0, (offset - sourceOffset)), toCopy);
+            todo -= toCopy;
+            done += toCopy;
         }
 
-        if(length >= this.offset + overlay.length)
+        if(sourceOffset + copyLength >= offset + overlay.length && sourceOffset <= length)
         {
-            parentAfter.doGetBytes(container, offset + this.offset + overlay.length, Math.min(length - this.offset - overlay.length, parentAfter.length));
+            parent.doGetBytes(Math.max(sourceOffset, offset + overlay.length), target, targetOffset + done, todo);
         }
     }
 

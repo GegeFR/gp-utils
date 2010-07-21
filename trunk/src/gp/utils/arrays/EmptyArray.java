@@ -42,8 +42,12 @@ public class EmptyArray extends Array
     }
 
     @Override
-    protected void doGetBytes(byte[] container, int offset, int length)
+    protected void doGetBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength)
     {
+        if(copyLength >0)
+        {
+            throw new ArrayLengthException("can't doGetBytes, asked " + copyLength + " bytes , this is an EmptyArray");
+        }
         // do nothing
     }
 }

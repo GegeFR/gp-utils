@@ -41,10 +41,10 @@ public abstract class OperationArray extends ReadOnlyArray
     }
 
     @Override
-    protected void doGetBytes(byte[] container, int offset, int length)
+    protected void doGetBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength)
     {
-        for(int i=0; i<length; i++){
-            container[i + offset] = this.operation(this.array1.get(i), this.array2.get(i));
+        for(int i=0; i<copyLength; i++){
+            target[i + targetOffset] = this.operation(this.array1.get(i + sourceOffset), this.array2.get(i + sourceOffset));
         }
     }
 

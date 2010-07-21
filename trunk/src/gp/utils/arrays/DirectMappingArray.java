@@ -63,9 +63,9 @@ public class DirectMappingArray extends Array
     }
 
     @Override
-    protected void doGetBytes(byte[] container, int offset, int length)
+    protected void doGetBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength)
     {
-        array.doGetBytes(container, offset, length);
+        array.doGetBytes(sourceOffset, target, targetOffset, copyLength);
     }
     // </editor-fold>
 }

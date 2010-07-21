@@ -44,12 +44,25 @@ public class PaddingArray extends ReadOnlyArray
     }
 
     @Override
-    protected void doGetBytes(byte[] container, int offset, int length)
+    protected void doGetBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength)
     {
-        data.doGetBytes(container, offset, Math.min(length, data.length));
-        for(int i=data.length; i<length; i++)
+        if(sourceOffset < data.length)
         {
-            container[i + offset] = paddedValue;
+            data.doGetBytes(sourceOffset, target, targetOffset, Math.min(copyLength, data.length));
+        }
+
+        if(sourceOffset + copyLength > data.length)
+        {
+            if(sourceOffset + copyLength > length)
+            {
+                throw new ArrayLengthException("can't doGetBytes, asked bytes from " + sourceOffset + " to " + (sourceOffset + copyLength) + ", array has a size of " + length);
+            }
+
+            int missingBytes = sourceOffset + copyLength - data.length;
+            for(int i=0; i<missingBytes; i++)
+            {
+                target[targetOffset + copyLength - i - 1] = paddedValue;
+            }
         }
     }
 }

@@ -96,13 +96,18 @@ public abstract class Array
     
     protected abstract void doSet(int i, int value);
 
-    protected abstract void doGetBytes(byte[] container, int offset, int length);
+    protected abstract void doGetBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength);
+
+    public void getBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength)
+    {
+        doGetBytes(sourceOffset, target, targetOffset, copyLength);
+    }
 
     public byte[] getBytes()
     {
         byte[] array = new byte[length];
 
-        doGetBytes(array, 0, length);
+        doGetBytes(0,array, 0, length);
         
         return array;
     }

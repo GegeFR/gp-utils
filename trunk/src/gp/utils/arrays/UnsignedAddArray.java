@@ -61,14 +61,14 @@ public class UnsignedAddArray extends ReadOnlyArray
     }
 
     @Override
-    protected void doGetBytes(byte[] container, int offset, int length)
+    protected void doGetBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength)
     {
         if(this.doCompute)
         {
             compute();
         }
 
-        System.arraycopy(resultant, 0, container, offset, length);
+        System.arraycopy(resultant, sourceOffset, target, targetOffset, copyLength);
     }
 
 }
