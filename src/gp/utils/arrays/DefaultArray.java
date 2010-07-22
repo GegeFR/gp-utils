@@ -68,7 +68,7 @@ public class DefaultArray extends Array
     @Override
     protected void doGetBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength)
     {
-        System.arraycopy(array, sourceOffset, target, targetOffset, copyLength);
+        System.arraycopy(array, offset + sourceOffset, target, targetOffset, copyLength);
     }
 
     @Override

@@ -155,12 +155,18 @@ public class SupArray extends Array
         }
 
         int size = arrayList.size();
+        int todo = copyLength;
+        int done = 0;
         for(int i=0; i<size; i++)
         {
             SupArrayPart supArrayPart = arrayList.get(i);
             if(sourceOffset <= supArrayPart.start || (sourceOffset >= supArrayPart.start && sourceOffset < supArrayPart.start + supArrayPart.array.length))
             {
-                supArrayPart.array.doGetBytes(Math.max(0, sourceOffset - supArrayPart.start), target, targetOffset + Math.max(0, supArrayPart.start - sourceOffset), Math.min(supArrayPart.array.length, copyLength - (supArrayPart.start - sourceOffset)));
+                int localOffset = Math.max(0, sourceOffset - supArrayPart.start);
+                int toCopy = Math.min(supArrayPart.array.length - localOffset, todo);
+                supArrayPart.array.doGetBytes(localOffset, target, targetOffset + done, toCopy);
+                todo -= toCopy;
+                done += toCopy;
             }
         }
     }
