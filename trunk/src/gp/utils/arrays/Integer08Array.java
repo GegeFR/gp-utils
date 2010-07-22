@@ -12,9 +12,6 @@
 
 package gp.utils.arrays;
 
-import gp.utils.arrays.ArrayLengthException;
-
-
 /**
  *
  * @author Gwenhael Pasquiers
