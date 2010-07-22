@@ -107,7 +107,7 @@ public abstract class Array
     {
         byte[] array = new byte[length];
 
-        doGetBytes(0,array, 0, length);
+        doGetBytes(0, array, 0, length);
         
         return array;
     }

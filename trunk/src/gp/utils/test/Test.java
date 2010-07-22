@@ -57,12 +57,11 @@ public class Test
         SupArray background = new SupArray();
         for(int i=0; i<64; i++){
             background.addLast(new ConstantArray((byte) (i), 1));
-            
         }
         Array overlay = background.subArray(2,32);
 
-        Array res = new OverlayArray(background, overlay, 16);
-        //Array res = background;
+        //Array res = new OverlayArray(background, overlay, 16);
+        Array res = background;
         System.err.println(res);
         System.err.println();
 
@@ -71,17 +70,42 @@ public class Test
         System.err.println();
 
         byte[] data = new byte[64];
+
         for(int i=0; i<data.length; i++) data[i] = (byte) 0xff;
+
         res.getBytes(0, data, 0, 8);
         System.err.println(new DefaultArray(data));
+        System.err.println();
         res.getBytes(8, data, 8, 16);
         System.err.println(new DefaultArray(data));
+        System.err.println();
         res.getBytes(24, data, 24, 16);
         System.err.println(new DefaultArray(data));
+        System.err.println();
         res.getBytes(40, data, 40, 16);
         System.err.println(new DefaultArray(data));
+        System.err.println();
         res.getBytes(56, data, 56, 8);
         System.err.println(new DefaultArray(data));
+        System.err.println();
 
+        for(int i=0; i<data.length; i++) data[i] = (byte) 0xff;
+
+
+        res.getBytes(56, data, 0, 8);
+        System.err.println(new DefaultArray(data));
+        System.err.println();
+        res.getBytes(40, data, 8, 16);
+        System.err.println(new DefaultArray(data));
+        System.err.println();
+        res.getBytes(24, data, 24, 16);
+        System.err.println(new DefaultArray(data));
+        System.err.println();
+        res.getBytes(8, data, 40, 16);
+        System.err.println(new DefaultArray(data));
+        System.err.println();
+        res.getBytes(0, data, 56, 8);
+        System.err.println(new DefaultArray(data));
+        System.err.println();
     }
 }
