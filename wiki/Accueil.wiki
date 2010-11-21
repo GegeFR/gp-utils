@@ -1,0 +1,15 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+This project contains code I wrote to suit my needs in my professional (or not) work.
+
+= Details =
+
+Interresting things :
+  * *gp-utils*
+    * *high-performances* and *simple-usage* classes for managing *arrays of bytes* (created for the stack gp-net-radius and then used for many things)
+    * a *scheduler*, just a pool of threads executing tasks at precise dates.
+
+  * *gp-utils-swing*
+    * *lternative* to the default JFileChooser (I really don't like it in windows). Openly inspired from the GTK filechooser.
