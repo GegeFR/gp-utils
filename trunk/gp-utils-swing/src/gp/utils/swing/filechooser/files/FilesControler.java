@@ -320,6 +320,7 @@ public class FilesControler {
             if(null != currentDir.getParentFile()){
                 currentDir = currentDir.getParentFile();
                 jTableFiles_SetCurrentDir(currentDir);
+                onCurrentDirChangedCallBack.run();
             }
             e.consume();
         }
