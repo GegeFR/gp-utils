@@ -318,8 +318,7 @@ public class FilesControler {
         }
         else if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
             if(null != currentDir.getParentFile()){
-                currentDir = currentDir.getParentFile();
-                jTableFiles_SetCurrentDir(currentDir);
+                jTableFiles_SetCurrentDir(currentDir.getParentFile());
                 onCurrentDirChangedCallBack.run();
             }
             e.consume();
@@ -379,11 +378,15 @@ public class FilesControler {
     }
 
     private void jTableFiles_Refresh(){
-        jTableFiles_SetCurrentDir(currentDir);
+        jTableFiles_SetCurrentDir(currentDir, true);
     }
 
     private void jTableFiles_SetCurrentDir(File file) {
-        if(file != null){
+        jTableFiles_SetCurrentDir(file, false);
+    }
+
+    private void jTableFiles_SetCurrentDir(File file, boolean refresh) {
+        if(file != null && (!file.equals(currentDir) || refresh)){
             DefaultTableModel model = (DefaultTableModel) view.jTableFiles.getModel();
 
             while (model.getRowCount() > 0) {
