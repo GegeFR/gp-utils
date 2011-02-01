@@ -76,28 +76,33 @@ public class OverlayArray extends Array
     protected void doGetBytes(int sourceOffset, byte[] target, int targetOffset, int copyLength)
     {
         int done = 0;
-        int todo = copyLength;
-        
-        if(sourceOffset + copyLength >= 0 && sourceOffset <= offset)
-        {
-            int toCopy = Math.min(copyLength, offset);
+
+        if(offset != 0 && sourceOffset >= 0 && sourceOffset <= offset){
+            int copyFrom = Math.max(sourceOffset, 0);
+            int copyUntil = Math.min(sourceOffset + copyLength, offset);
+            int toCopy = copyUntil - copyFrom;
+
             parent.doGetBytes(sourceOffset, target, targetOffset, toCopy);
-            todo -= toCopy;
             done += toCopy;
         }
 
-        if(sourceOffset + copyLength >= offset && sourceOffset <= offset + overlay.length)
-        {
-            int localOffset = Math.max(0, sourceOffset - offset);
-            int toCopy = Math.min(todo, overlay.length - localOffset);
-            overlay.doGetBytes(localOffset, target, targetOffset + Math.max(0, (offset - sourceOffset)), toCopy);
-            todo -= toCopy;
+
+        if(sourceOffset < offset + overlay.length && sourceOffset + copyLength >= offset){
+            int copyFrom = Math.max(sourceOffset, offset);
+            int copyUntil = Math.min(sourceOffset + copyLength, offset + overlay.length);
+            int toCopy = copyUntil - copyFrom;
+
+            overlay.doGetBytes(copyFrom - offset, target, targetOffset + done, toCopy);
             done += toCopy;
         }
+        
+        if(sourceOffset < this.length && sourceOffset + copyLength >= offset + overlay.length){
+            int copyFrom = Math.max(sourceOffset, offset + overlay.length);
+            int copyUntil = Math.min(sourceOffset + copyLength, this.length);
+            int toCopy = copyUntil - copyFrom;
 
-        if(sourceOffset + copyLength >= offset + overlay.length && sourceOffset <= length)
-        {
-            parent.doGetBytes(Math.max(sourceOffset, offset + overlay.length), target, targetOffset + done, todo);
+            parent.doGetBytes(copyFrom - offset - overlay.length, target, targetOffset + done, toCopy);
+            done += toCopy;
         }
     }
 
