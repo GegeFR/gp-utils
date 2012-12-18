@@ -13,7 +13,9 @@ package gp.utils.arrays;
 
 /**
  *
- * @author Gwenhael Pasquiers
+ * @author
+ * Gwenhael
+ * Pasquiers
  */
 public abstract class Array {
 
@@ -59,7 +61,24 @@ public abstract class Array {
         this.doSet(arrayIndex, byteValue);
     }
 
-    public void setBits(int startIndex, int length, long bitsValue) {
+    public void setBits(int startIndex, int length, int bitsValue) {
+        if (length > 32) {
+            throw new RuntimeException("invalid length " + length + ", because bitsValue is an int (4 bytes : 32 bits)");
+        }
+        else if (length == 32) {
+            // full scope of int type, it's ok
+        }
+        else {
+            int maxValue = (1 << length) - 1;
+            if (bitsValue > maxValue || bitsValue < 0) {
+                throw new RuntimeException("invalid length regarding to bitsValue, length is " + length + " but bitsValue (" + bitsValue + ") is greater than 2^" + length + "-1 (" + maxValue + ")");
+            }
+        }
+
+        setBitsL(startIndex, length, (long) (bitsValue & 0xffffffffl));
+    }
+
+    public void setBitsL(int startIndex, int length, long bitsValue) {
 
         if (length > 64) {
             throw new RuntimeException("invalid length " + length + ", because bitsValue is a long (8 bytes : 64 bits)");
@@ -76,11 +95,11 @@ public abstract class Array {
 
         long mask;
         for (int i = length - 1; i >= 0; i--) {
-            mask = 1l << length -  1 - i;
-            if((bitsValue & mask) != 0){
+            mask = 1l << length - 1 - i;
+            if ((bitsValue & mask) != 0) {
                 this.setBit(startIndex + i, 1);
             }
-            else{
+            else {
                 this.setBit(startIndex + i, 0);
             }
         }
@@ -96,13 +115,21 @@ public abstract class Array {
         return ((byteValue & (0x80 >> bitIndex)) == 0) ? 0 : 1;
     }
 
-    public long getBits(int startIndex, int length) {
-        if(length > 64){
+    public int getBits(int startIndex, int length) {
+        if (length < 0 || length > 32) {
+            throw new RuntimeException("invalid length " + length + ", because return type is an int (4 bytes : 32 bits)");
+        }
+
+        return (int) getBitsL(startIndex, length);
+    }
+
+    public long getBitsL(int startIndex, int length) {
+        if (length < 0 || length > 64) {
             throw new RuntimeException("invalid length " + length + ", because return type is a long (8 bytes : 64 bits)");
         }
-        
+
         long value = 0;
-        
+
         for (int i = length - 1; i >= 0; i--) {
             value += ((long) this.getBit(startIndex + i)) << (length - 1 - i);
         }

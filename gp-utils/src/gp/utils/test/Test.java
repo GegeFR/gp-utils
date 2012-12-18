@@ -20,12 +20,13 @@ public class Test
     public static void main(String... args)
     {
         DefaultArray array = new DefaultArray(16);
-        long val = 65;
-        int len = 16;
-        array.setBits(9, len, val);
+        long val = 4000000000l;
+        int len = 32;
+        int offset = 9;
+        array.setBitsL(offset, len, val);
         
         System.out.println(val);
-        System.out.println(array.getBits(4, len));
+        System.out.println(array.getBits(offset, len));
         
         System.out.println(array.toString());
         
