@@ -1,0 +1,46 @@
+# Introduction #
+
+Details/Infos on gp-utils-swing
+
+
+No javadoc ...
+
+Quickstart :
+
+```
+            FileChooser controler = new FileChooser(null, true, FileChooser.FileFilter png = new FileFilter() {
+                public boolean accept(File pathname) {
+                    return pathname.isDirectory() || pathname.getName().toLowerCase().endsWith(".png");
+                }
+
+                @Override
+                public String toString(){
+                    return "Images (PNG)";
+                }
+            };
+
+            controler.addDisplayFilter(png);
+            controler.selectDisplayFilter(png);
+            controler.setAcceptFilter(new FileFilter() {
+                public boolean accept(File pathname) {
+                    return pathname.getName().toLowerCase().endsWith(".png");
+                }
+            });
+
+            System.out.println(controler.show());
+            System.out.println(controler.getFile());
+```
+
+Two modes : FILE\_OPEN and FILE\_SAVE
+
+You can add your own DisplayFilters (choose to display or not a file in the view). The toString method of that display filter will be presented in the combolist.
+Default is : show everything.
+
+
+You can set acceptfilter (selectionnable files).
+Default is: accept any file (not folders)
+
+You can select files by typing their names (ilke in the gtk FileChooser).
+Backspace goes to parent directory.
+
+The 2 default bookmarks are current execution dir, and user home dir.
