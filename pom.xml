@@ -19,7 +19,11 @@
     <version>master-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>gege-fr-utils</name>
-    
+
+    <description>A library with some tools used in my projects. Mainly array libs aiming for high performances (avoid array allocations).</description>
+
+    <url>https://github.com/gege-fr/gege-fr-utils</url>
+
     <developers>
         <developer>
             <id>gege-fr</id>
