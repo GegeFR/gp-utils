@@ -15,11 +15,11 @@ env:
 
 install:
   - openssl aes-256-cbc -K $encrypted_9da146e6f2b0_key -iv $encrypted_9da146e6f2b0_iv -in .gnupg/secring.gpg.enc -out .gnupg/secring.gpg -d
-  - openssl aes-256-cbc -K $encrypted_9da146e6f2b0_key -iv $encrypted_9da146e6f2b0_iv -in .gnupg/pubring.gpg.enc -out .gnupg/pubring.gpg -d
+  - openssl aes-256-cbc -K $encrypted_cd3c9d190bc6_key -iv $encrypted_cd3c9d190bc6_iv -in .gnupg/pubring.gpg.enc -out .gnupg/pubring.gpg -d
 
 script:
   - if [[ ! -z $TRAVIS_TAG ]]; then mvn versions:set -DnewVersion=$TRAVIS_TAG; fi
-  - mvn -B -Ptravis --settings .mvn/settings.xml clean deploy
+  - mvn -B -Ptravis --settings .m2/settings.xml clean deploy
 
 #addons:
 #  sonarcloud:
