@@ -13,9 +13,8 @@ env:
   - secure: maeNvmLDJ1rYhBCyTsq7BuFNxgONwMQaOWtTznwKflhF2pRyPE836px30/X6IGvcaeLgwoAN/p/wKtE5L1XUMWURxj97T21PK76/Ilc0JBmfbue3pWCL0BxZx8IVi7AJYIX++vw4VcEy5B/10sL5mFa+z60IW8kOA83olgo0HZBUR1mGPM4PQ+2NnlX9dLmQkd2YImq67JI6PXvsbtHZ8vx0ATNsXHMTQUKl4fstUatoQ5Vvyj8zsqGLxSxtXq6mFxAEqE4loaItYaaWL20OtteDxzyIrZMgzMKENQNpYnHA8ZT95K321OhFHzlMJjqo0DI7rsDG65PbBo7eHUT5nlgtmW15uUQXHWxrH2a1Kr1RKXnjEZlDfXpEgf3ZJmPfsigmjWBsx2+kpJRFLbkXoH+QScNZaIT5iK1xlTMjFNjKR3Jck5hYtoCGP906VBTrEECC0WJjNHE7tAjRXBrRBl605LJfBQBJ+G/4D/d6mkiBWxRCAkWFMwMENIydWsz3kG2MjqOv5+kDelm+rSzi1PL75SQBKPewq6nHBn7S5EF6SIcZQBXsDRfE3cYpYr33ujQsmDuToH3bh7PIDbxnpBSE8UQRifmB+v/wMwbEanTbZV/NfVqH0WpY7k71B1j2FD9R1VWdfoikQ4P78/0oZXtKqYsN6Ik4WAKSDeP7kAo=
 
 install:
-- openssl aes-256-cbc -K $encrypted_9da146e6f2b0_key -iv $encrypted_9da146e6f2b0_iv -in .gnupg/pubring.gpg.enc -out .gnupg/pubring.gpg -d
-- openssl aes-256-cbc -K $encrypted_9da146e6f2b0_key -iv $encrypted_9da146e6f2b0_iv -in .gnupg/secring.gpg.enc -out .gnupg/secring.gpg -d
-
+- openssl aes-256-cbc -K $encrypted_cd3c9d190bc6_key -iv $encrypted_cd3c9d190bc6_iv -in secrets.tar.enc -out secrets.tar -d
+- tar xvf secrets.tar
 script:
 - if [[ ! -z $TRAVIS_TAG ]]; then mvn versions:set -DnewVersion=$TRAVIS_TAG; fi
 - mvn -B -Ptravis --settings .m2/settings.xml clean deploy
